@@ -1,0 +1,55 @@
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
+  theme: {
+    extend: {
+      "primary-900": "#154E64",
+      "primary-800": "#145F76",
+      "primary-700": "#0C7592",
+      "primary-600": "#0692B4",
+      "primary-500": "#03B8D7",
+      "primary-300": "#65EAFB",
+      "primary-200": "#A4F4FD",
+      "primary-100": "#CEFBFF",
+      "primary-50": "#ECFEFF",
+      "secondary-900": "#0D544A",
+      "secondary-800": "#0A6558",
+      "secondary-700": "#05806D",
+      "secondary-600": "#00A187",
+      "secondary-500": "#04C8A4",
+      "secondary-400": "#8391AD",
+      "secondary-200": "#90FFE2",
+      "secondary-100": "#C7FFF0",
+      "secondary-50": "#EFFEFA",
+      "accent-700": "#414B63",
+      "accent-600": "#4F5B7A",
+      "accent-500": "#647393",
+      "accent-400": "#8391AD",
+      "accent-300": "#AFB7CA",
+      "accent-200": "#D4D9E3",
+      "accent-100": "#ECEEF2",
+      "accent-50": "#F6F7F9",
+      "accent-900": "#323848",
+    },
+  },
+  daisyui: {
+    themes: [
+      {
+        light: {
+          "primary": "#0FCFEC",
+          "secondary": "#19D3AE",
+          "accent": "#3A4256",
+          "neutral": "#3D4451",
+          "base-100": "#FFFFFF",
+          "info": "#3ABFF8",
+          "success": "#36D399",
+          "warning": "#FBBD23",
+          "error": "#F87272",
+        },
+      },
+      "dark"
+    ],
+  },
+  plugins: [require("daisyui")],
+}
