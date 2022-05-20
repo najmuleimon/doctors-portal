@@ -1,14 +1,26 @@
+import { signOut } from 'firebase/auth';
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link, NavLink } from 'react-router-dom';
+import auth from '../../firebase.init';
 
 const Navbar = () => {
+    const [user, loading, error] = useAuthState(auth);
+    const logout = () => {
+        signOut(auth);
+    };
+
     const menuItems = <>
         <li><NavLink to="/" className='text-base font-normal whitespace-nowrap mx-1'>Home</NavLink></li>
         <li><NavLink to="/about" className='text-base font-normal whitespace-nowrap mx-1'>About</NavLink></li>
         <li><NavLink to="/appointment" className='text-base font-normal whitespace-nowrap mx-1'>Appointment</NavLink></li>
         <li><NavLink to="/reviews" className='text-base font-normal whitespace-nowrap mx-1'>Reviews</NavLink></li>
         <li><NavLink to="/contact" className='text-base font-normal whitespace-nowrap mx-1'>Contact Us</NavLink></li>
-        <li><NavLink to="/login" className='text-base font-normal whitespace-nowrap mx-1'>Login</NavLink></li>
+
+        {
+            user ? <button className='text-base font-normal whitespace-nowrap mx-1' onClick={logout}>Logout</button>
+                : <li><NavLink to="/login" className='text-base font-normal whitespace-nowrap mx-1'>Login</NavLink></li>
+        }
         <li className="dropdown dropdown-hover dropdown-end">
             <label tabIndex="0" className="text-base font-normal m-1">More</label>
             <ul tabIndex="0" className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">

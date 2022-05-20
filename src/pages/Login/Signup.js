@@ -1,10 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
+import auth from '../../firebase.init';
+import Loading from '../Shared/Loading';
 
 const Signup = () => {
+    const [createUserWithEmailAndPassword, user, loading, error] = useCreateUserWithEmailAndPassword(auth);
+    const [signInWithGoogle, googleUser, googleLoading, googleError] = useSignInWithGoogle(auth);
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+
     const { register, formState: { errors }, handleSubmit } = useForm();
-    const onSubmit = data => console.log(data);
+
+    const navigate = useNavigate();
+    let signUpError, googleSignUpError;
+
+    const onSubmit = async data => {
+        await createUserWithEmailAndPassword(data.email, data.password);
+        await updateProfile({ displayName: data.name });
+    };
+
+    useEffect(() => {
+        if (user || googleUser) {
+            navigate('/');
+        }
+    }, [user, googleUser, navigate]);
+
+    if (loading || googleLoading || updating) {
+        return <Loading />
+    }
+
+    if (error || googleError) {
+        signUpError = <p className='text-sm font-normal text-red-500'>{error?.message}</p>
+        googleSignUpError = <p className='text-sm font-normal text-red-500'>{googleError?.message}</p>
+    }
+
     return (
         <div className="w-full flex items-center justify-center h-screen">
             <div className="card w-full max-w-lg shadow-xl bg-base-100">
@@ -70,6 +100,11 @@ const Signup = () => {
                                 {errors.password?.type === 'pattern' && <p className='text-sm font-normal text-red-500'>{errors.password.message}</p>}
                             </label>
                         </div>
+
+                        {/* signup error */}
+                        {signUpError}
+                        {googleSignUpError}
+
                         <div className="form-control mt-6">
                             <button type='submit' className="btn btn-accent text-base-100">Sign Up</button>
                         </div>
@@ -80,7 +115,7 @@ const Signup = () => {
                     <div className="divider">OR</div>
 
                     {/* google login button */}
-                    <button className="btn btn-outline hover:bg-accent">Continue with Google</button>
+                    <button className="btn btn-outline hover:bg-accent" onClick={() => signInWithGoogle()}>Continue with Google</button>
                 </div>
             </div>
         </div>
