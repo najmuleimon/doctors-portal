@@ -27,7 +27,6 @@ const Login = () => {
     if (error || googleError) {
         signInError = <p className='text-sm font-normal text-red-500'>{error?.message}</p>
         googleSignInError = <p className='text-sm font-normal text-red-500'>{googleError?.message}</p>
-        console.log(googleError.message);
     }
 
     const onSubmit = data => {
